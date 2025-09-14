@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tune Music Playlist App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+      <div class="login-box">
+        <div class="logo-box">
+          <img src="./logo.svg" alt="TUNE Music App" />
+        </div>
+        <form id="loginForm">
+          <div class="input-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" required />
+          </div>
+          <div class="input-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" required />
+          </div>
+          <button type="submit" class="btn">Login</button>
+          <div id="loginError" class="error"></div>
+          <p style="margin-top: 20px; color: #666; font-size: 0.9em"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="app">
+      <div class="container">
+        <div class="header">
+          <div class="logo-box-nav">
+            <img src="./logo-white.svg" alt="TUNE Music App" />
+          </div>
+          <div class="user-info">
+            <span>Welcome, <span id="currentUser"></span></span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+          </div>
+        </div>
+
+        <div class="main-content">
+          <!-- Song Library -->
+          <div class="section">
+            <h2>🎼 Song Library</h2>
+            <div class="library-controls">
+              <button class="btn scan-btn" onclick="scanMusicFolder()">
+                🔍 Scan Music Folder
+              </button>
+            </div>
+            <div id="songLibrary">
+              <div class="loading">
+                Click "Scan Music Folder" to load songs from ./music/
+              </div>
+            </div>
+          </div>
+
+          <!-- Playlists Management -->
+          <div class="section">
+            <h2>📋 My Playlists</h2>
+            <div class="playlist-manager">
+              <div class="create-playlist">
+                <div style="display: flex">
+                  <input
+                    type="text"
+                    id="newPlaylistName"
+                    placeholder="New playlist name..."
+                  />
+                  <button class="btn" onclick="createNewPlaylist()">
+                    Create
+                  </button>
+                </div>
+              </div>
+              <div class="playlist-list" id="playlistList"></div>
+            </div>
+          </div>
+
+          <!-- Current Playlist -->
+          <div class="section">
+            <h2>
+              🎵 Current Playlist:
+              <span id="currentPlaylistName">Untitled</span>
+            </h2>
+            <div class="current-playlist">
+              <div class="playlist-controls">
+                <button class="btn" onclick="clearPlaylist()">Clear All</button>
+                <button class="btn" onclick="saveCurrentPlaylist()">
+                  Save Playlist
+                </button>
+              </div>
+              <div id="playlist"></div>
+            </div>
+          </div>
+
+          <!-- Player Controls -->
+          <div class="section player">
+            <h2>🎮 Player Controls</h2>
+            <div class="player-controls">
+              <button
+                class="btn play-btn"
+                id="playBtn"
+                onclick="togglePlayPause()"
+              >
+                ▶️ Play
+              </button>
+              <button class="btn" onclick="nextSong()">⏭️ Next</button>
+              <button class="btn" onclick="previousSong()">⏮️ Previous</button>
+              <button class="btn shuffle-btn" onclick="shufflePlaylist()">
+                🔀 Shuffle
+              </button>
+              <button class="btn" onclick="toggleRepeat()">🔁 Repeat</button>
+            </div>
+
+            <div class="volume-control">
+              <span>🔊</span>
+              <input
+                type="range"
+                class="volume-slider"
+                id="volumeSlider"
+                min="0"
+                max="100"
+                value="50"
+              />
+              <span id="volumeValue">50%</span>
+            </div>
+
+            <div class="now-playing">
+              <h3>Now Playing:</h3>
+              <div id="currentSong">No song selected</div>
+              <div
+                class="progress-bar"
+                id="progressBar"
+                onclick="seekTo(event)"
+              >
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+              <div id="songTime">0:00 / 0:00</div>
+            </div>
+
+            <!-- Hidden audio element -->
+            <audio id="audioPlayer" preload="none"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Playlist Modal -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <h3>Edit Playlist</h3>
+        <input type="text" id="editPlaylistName" placeholder="Playlist name" />
+        <div style="margin-top: 15px">
+          <button class="btn" onclick="updatePlaylistName()">Save</button>
+          <button class="btn" onclick="closeEditModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
